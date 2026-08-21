@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="Common/Common.csproj" />
+  <Project Path="DTOModel/DTOModel.csproj" />
+  <Project Path="Model/Model.csproj" />
+  <Project Path="Operation/Operation.csproj" />
+  <Project Path="Repository/Repository.csproj" />
+  <Project Path="TCPL/API.csproj" />
+</Solution>

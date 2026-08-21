@@ -1,0 +1,29 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build folders
+bin/
+obj/
+
+# User-specific files
+*.user
+*.rsuser
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
+
+# Local configuration / secrets
+appsettings.Development.json
+
+# Rider
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

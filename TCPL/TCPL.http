@@ -1,0 +1,6 @@
+@TCPL_HostAddress = http://localhost:5003
+
+GET {{TCPL_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
