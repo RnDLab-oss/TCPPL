@@ -12,6 +12,8 @@ namespace ERP_API.Repositories
 
         DashboardKpiResponse GetDashboardKpi(DashboardKpiRequest request);
 
+        ApiResponse GetTaskList(TaskListRequest request);
+
     }
     public class ReportRepository : IReportRepository
     {
@@ -115,5 +117,25 @@ namespace ERP_API.Repositories
             }
             return response;
         }
+
+        public ApiResponse GetTaskList(TaskListRequest request)
+        {
+            SqlParameter[] param =
+            {
+                new SqlParameter("@DepartmentID", request.DepartmentID ?? (object)DBNull.Value),
+                new SqlParameter("@TaskType", request.TaskType ?? (object)DBNull.Value),
+                new SqlParameter("@Frequency", request.Frequency ?? (object)DBNull.Value),
+                new SqlParameter("@Priority", request.Priority ?? (object)DBNull.Value),
+                new SqlParameter("@UserID", request.UserID ?? (object)DBNull.Value),
+                new SqlParameter("@StatusKey", request.StatusKey ?? (object)DBNull.Value),
+                new SqlParameter("@Search", request.Search ?? (object)DBNull.Value),
+                new SqlParameter("@Tab", request.Tab ?? (object)DBNull.Value),
+                new SqlParameter("@AsOfDate", request.AsOfDate ?? (object)DBNull.Value)
+            };
+
+            return _db.ExecuteJson("udp_Web_Tasks_GetList", param);
+        }
+
+
     }
 }

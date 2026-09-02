@@ -35,6 +35,13 @@ namespace ERP_API.Controllers
             return Ok(result);
         }
 
+        [HttpPost("TaskList")]
+        public IActionResult TaskList(TaskListRequest request)
+        {
+            var result = _report.GetTaskList(request);
+            return Ok(result);
+        }
+
 
     }
 
