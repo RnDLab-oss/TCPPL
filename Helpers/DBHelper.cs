@@ -55,30 +55,61 @@ namespace ERP_API.Helpers
 
         // EXECUTE JSON
 
-        public ApiResponse ExecuteJson( string procedureName,params SqlParameter[] parameters)
+        public ApiResponse ExecuteJson(string procedureName, params SqlParameter[] parameters)
         {
-            DataTable dt =ExecuteDataTable(procedureName, parameters);
-            List<Dictionary<string, object>> data =new List<Dictionary<string, object>>();
-
-            foreach (DataRow row in dt.Rows)
+            try
             {
-                Dictionary<string, object> item =
-                    new Dictionary<string, object>();
-
-                foreach (DataColumn col in dt.Columns)
+                DataTable dt = ExecuteDataTable(procedureName, parameters);
+                List<Dictionary<string, object>> data = new List<Dictionary<string, object>>();
+                foreach (DataRow row in dt.Rows)
                 {
-                    item[col.ColumnName] =
-                        row[col] == DBNull.Value? null: row[col];
+                    Dictionary<string, object> item =new Dictionary<string, object>();
+                    foreach (DataColumn col in dt.Columns)
+                    {
+                        item[col.ColumnName] = row[col] == DBNull.Value ? null : row[col];
+                    }
+                    data.Add(item);
                 }
-                data.Add(item);
+
+                if (data.Count == 0)
+                {
+                    return new ApiResponse
+                    {
+                        Success = false,
+                        Message = "No data found.",
+                        Count = 0,
+                        Data = data
+                    };
+                }
+
+                return new ApiResponse
+                {
+                    Success = true,
+                    Message = "Data Loaded Successfully.",
+                    Count = data.Count,
+                    Data = data
+                };
             }
-            return new ApiResponse
+            catch (SqlException ex)
             {
-                Success = true,
-                Message = "Data Loaded Successfully",
-                Count = data.Count,
-                Data = data
-            };
+                return new ApiResponse
+                {
+                    Success = false,
+                    Message = "Database Error: " + ex.Message,
+                    Count = 0,
+                    Data = new List<Dictionary<string, object>>()
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse
+                {
+                    Success = false,
+                    Message = "Application Error: " + ex.Message,
+                    Count = 0,
+                    Data = new List<Dictionary<string, object>>()
+                };
+            }
         }
 
         // EXECUTE JSON DATASET

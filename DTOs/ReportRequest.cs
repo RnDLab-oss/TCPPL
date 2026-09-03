@@ -4,10 +4,13 @@ namespace ERP_API.DTOs
 {
     public class ReportRequest
     {
-        public int CompId { get; set; }
-        public int BranchId { get; set; }
-        public int AcYear { get; set; }
-        public int RptType { get; set; }
+        public int? CompId { get; set; }
+        public int? BranchId { get; set; }
+        public int? AcYear { get; set; }
+        public int? UserId { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+        public int? RptType { get; set; }
     }
 
     public class DashboardKpiRequest

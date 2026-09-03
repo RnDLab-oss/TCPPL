@@ -12,7 +12,7 @@ namespace ERP_API.Repositories
 
         DashboardKpiResponse GetDashboardKpi(DashboardKpiRequest request);
 
-        ApiResponse GetTaskList(TaskListRequest request);
+        //ApiResponse GetTaskList(TaskListRequest request);
 
     }
     public class ReportRepository : IReportRepository
@@ -29,9 +29,11 @@ namespace ERP_API.Repositories
                 new SqlParameter("@CompId", request.CompId),
                 new SqlParameter("@BranchId", request.BranchId),
                 new SqlParameter("@AcYear", request.AcYear),
+                new SqlParameter("@UserId", request.UserId),
+                new SqlParameter("@FromDate", request.FromDate),
+                new SqlParameter("@ToDate", request.ToDate),
                 new SqlParameter("@RptType", request.RptType)
             };
-
             return _db.ExecuteJson("Udp_Web_Reports", param);
         }
 
@@ -118,23 +120,23 @@ namespace ERP_API.Repositories
             return response;
         }
 
-        public ApiResponse GetTaskList(TaskListRequest request)
-        {
-            SqlParameter[] param =
-            {
-                new SqlParameter("@DepartmentID", request.DepartmentID ?? (object)DBNull.Value),
-                new SqlParameter("@TaskType", request.TaskType ?? (object)DBNull.Value),
-                new SqlParameter("@Frequency", request.Frequency ?? (object)DBNull.Value),
-                new SqlParameter("@Priority", request.Priority ?? (object)DBNull.Value),
-                new SqlParameter("@UserID", request.UserID ?? (object)DBNull.Value),
-                new SqlParameter("@StatusKey", request.StatusKey ?? (object)DBNull.Value),
-                new SqlParameter("@Search", request.Search ?? (object)DBNull.Value),
-                new SqlParameter("@Tab", request.Tab ?? (object)DBNull.Value),
-                new SqlParameter("@AsOfDate", request.AsOfDate ?? (object)DBNull.Value)
-            };
+        //public ApiResponse GetTaskList(TaskListRequest request)
+        //{
+        //    SqlParameter[] param =
+        //    {
+        //        new SqlParameter("@DepartmentID", request.DepartmentID ?? (object)DBNull.Value),
+        //        new SqlParameter("@TaskType", request.TaskType ?? (object)DBNull.Value),
+        //        new SqlParameter("@Frequency", request.Frequency ?? (object)DBNull.Value),
+        //        new SqlParameter("@Priority", request.Priority ?? (object)DBNull.Value),
+        //        new SqlParameter("@UserID", request.UserID ?? (object)DBNull.Value),
+        //        new SqlParameter("@StatusKey", request.StatusKey ?? (object)DBNull.Value),
+        //        new SqlParameter("@Search", request.Search ?? (object)DBNull.Value),
+        //        new SqlParameter("@Tab", request.Tab ?? (object)DBNull.Value),
+        //        new SqlParameter("@AsOfDate", request.AsOfDate ?? (object)DBNull.Value)
+        //    };
 
-            return _db.ExecuteJson("udp_Web_Tasks_GetList", param);
-        }
+        //    return _db.ExecuteJson("udp_Web_Tasks_GetList", param);
+        //}
 
 
     }
