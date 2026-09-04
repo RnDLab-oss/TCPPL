@@ -18,6 +18,7 @@ namespace ERP_API.DTOs
         public int CompId { get; set; }
         public int BranchId { get; set; }
         public int AcYear { get; set; }
+        public int Userid { get; set; }
         public int RptType { get; set; }
         public int ViewPeriod { get; set; }
         public string UserToken { get; set; }

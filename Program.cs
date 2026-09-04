@@ -7,10 +7,10 @@ using System.Text;
 using Hangfire;
 using Hangfire.SqlServer;
 using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
-
-// Add services : Vipul.
+// Add services : Vipul
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<JwtHelper>();
 builder.Services.AddScoped<DBHelper>();
@@ -19,8 +19,10 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<ISaveRepository, SaveRepository>();
 builder.Services.AddScoped<ICommonRepository, CommonRepository>();
+
 builder.Services.AddControllers();
-//Vipul :
+
+// Authentication : Vipul
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -39,25 +41,26 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
 builder.Services.AddAuthorization();
-//React
+
+// CORS : React Local + Production
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactPolicy", policy =>
     {
         policy
-            .WithOrigins("https://localhost:4522")
+            .WithOrigins(
+                "https://localhost:4522",
+                "https://fms.rndlab.in"
+            )
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
 });
 
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 
-//Swagger : Vipul
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -68,8 +71,6 @@ builder.Services.AddSwaggerGen(options =>
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
         Description = "Enter Token"
-
-        
     });
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -88,30 +89,28 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-
-
 var app = builder.Build();
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
 
+// Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// developmetn comment
-//app.UseHttpsRedirection();
+// HTTPS Redirection
+// app.UseHttpsRedirection();
 
-//Vipul :
+// CORS
 app.UseCors("ReactPolicy");
+
+// Authentication
 app.UseAuthentication();
 
+// API Logging
 app.UseMiddleware<ApiLoggingMiddleware>();
 
+// Authorization
 app.UseAuthorization();
 
+// Controllers
 app.MapControllers();
 
 app.Run();

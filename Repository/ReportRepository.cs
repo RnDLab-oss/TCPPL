@@ -59,6 +59,7 @@ namespace ERP_API.Repositories
                 new SqlParameter("@CompId", request.CompId),
                 new SqlParameter("@BranchId", request.BranchId),
                 new SqlParameter("@AcYear", request.AcYear),
+                new SqlParameter("@UserID", request.Userid),
                 new SqlParameter("@RptType", request.RptType),
                 new SqlParameter("@ViewPeriod", request.ViewPeriod),
                 new SqlParameter("@UserToken", request.UserToken ?? "")
